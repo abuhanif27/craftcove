@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Select Elements</title>
+    <style>
+        /* 1. Basic Select with Custom Dropdown Arrow */
+        .custom-select {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-select select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 10px 30px 10px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            width: 200px;
+            outline: none;
+        }
+
+        .custom-select select::-ms-expand {
+            display: none;
+        }
+
+        .custom-select .arrow {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .custom-select .arrow::before {
+            content: "\25BC";
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Custom hover effect for Basic Select */
+        .custom-select:hover select {
+            background-color: #e0e0e0;
+        }
+
+        /* 2. Material Design Inspired Select */
+        .material-select {
+            position: relative;
+            display: inline-block;
+        }
+
+        .material-select select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background-color: transparent;
+            cursor: pointer;
+            outline: none;
+            transition: border-bottom-color 0.3s ease;
+            width: 200px;
+        }
+
+        .material-select select:hover {
+            border-bottom-color: #007bff;
+        }
+
+        /* 3. Rounded Select with Hover Effect */
+        .rounded-select {
+            position: relative;
+            display: inline-block;
+        }
+
+        .rounded-select select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s ease;
+            width: 200px;
+        }
+
+        .rounded-select select:hover {
+            background-color: #eaeaea;
+        }
+
+        /* 4. Dropdown with Border Animation on Hover */
+        .border-hover-select {
+            position: relative;
+            display: inline-block;
+        }
+
+        .border-hover-select select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 10px;
+            border: 2px solid #ccc;
+            background-color: transparent;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.3s ease;
+            width: 200px;
+        }
+
+        .border-hover-select select:hover {
+            border-color: #007bff;
+        }
+
+        .border-hover-select select:focus {
+            border-color: #007bff;
+        }
+
+        /* 5. Dark Select with Hover Effect */
+        .dark-select {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dark-select select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #222;
+            color: #fff;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s ease;
+            width: 200px;
+        }
+
+        .dark-select select:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 1. Basic Select with Custom Dropdown Arrow -->
+<div class="custom-select">
+    <select>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+    </select>
+    <div class="arrow"></div>
+</div>
+
+<!-- 2. Material Design Inspired Select -->
+<div class="material-select">
+    <select>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+    </select>
+</div>
+
+<!-- 3. Rounded Select with Hover Effect -->
+<div class="rounded-select">
+    <select>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+    </select>
+</div>
+
+<!-- 4. Dropdown with Border Animation on Hover -->
+<div class="border-hover-select">
+    <select>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+    </select>
+</div>
+
+<!-- 5. Dark Select with Hover Effect -->
+<div class="dark-select">
+    <select>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+    </select>
+</div>
+
+</body>
+</html>
