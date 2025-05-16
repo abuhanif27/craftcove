@@ -32,6 +32,14 @@ $tags_result = mysqli_stmt_get_result($stmt_tags);
 
 // Add product to cart
 if (isset($_POST["cartBtn"])) {
+    // Check if user is logged in
+    if (!isset($_SESSION["user"])) {
+        // Redirect to login page with return URL
+        $return_url = "product_view.php?id=" . $product_id;
+        echo "<script>window.location.href='login_view.php?next=" . urlencode($return_url) . "';</script>";
+        exit;
+    }
+
     $quantity = isset($_POST["quantity"]) ? intval($_POST["quantity"]) : 1;
     
     // Ensure quantity is at least 1
@@ -85,13 +93,7 @@ if (isset($_POST["cartBtn"])) {
                 </button>
             </div>';
     } else {
-        $user_id = isset($_SESSION["user"]["id"]) ? $_SESSION["user"]["id"] : null;
-        if (!$user_id) {
-            $_SESSION["login_msg"] = "You are not logged in, please log in first!";
-            $uri = $_SERVER['REQUEST_URI'];
-            echo "<script>window.location.href='login_view.php?next=$uri'</script>";
-            exit();
-        }
+        $user_id = $_SESSION["user"]["id"];
         
         // Check if the product is already in the cart
         $check_cart_sql = "SELECT id, quantity FROM cart WHERE product_id = ? AND user_id = ? AND status = 'pending'";
@@ -271,12 +273,12 @@ $result_comment_data = mysqli_query($conn, $comment_data_sql);
                         <?php if ($stock <= 0) : ?>
                             <button class="w-full bg-orange-300 text-white font-semibold py-2 rounded hover:bg-orange-100 focus:outline-none focus:bg-orange-100 hover:text-slate-300"
                                     disabled name="cartBtn">
-                                Order
+                                Add to Cart
                             </button>
                         <?php else : ?>
                             <button class="w-full bg-orange-500 text-white font-semibold py-2 rounded hover:bg-orange-600 focus:outline-none focus:bg-orange-600"
                                     name="cartBtn">
-                                Order
+                                Add to Cart
                             </button>
                         <?php endif; ?>
                     </form>

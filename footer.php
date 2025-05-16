@@ -24,7 +24,7 @@
             </a>
         </div>
     </div>
-    <p class="text-slate-500 text-center text-sm">hanifusion &copy; 2024 </p>
+    <p class="text-slate-500 text-center text-sm">HaniFusion &copy; 2025 </p>
 </footer>
 
 </body>

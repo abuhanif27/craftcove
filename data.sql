@@ -63,8 +63,9 @@ INSERT INTO user_ac(name,email,address,phone,password) VALUES ('Abu Hanif','admi
 
 INSERT INTO coupon_code(name)
 VALUES ('ABU_HANIF'),
-       ('MAY_2024'),
-       ('FIRST_ORDER');
+       ('MAY_2025'),
+       ('FIRST_ORDER'),
+       ('MD_ANIS');
 
 
 

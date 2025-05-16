@@ -3,7 +3,7 @@ require 'helpers.php';
 require 'database.php';
 // No need to redeclare global $conn as it's already available from database.php
 
-// Handle remove item request
+// Handle remove item request for logged-in users
 if (isset($_POST['remove_item']) && isset($_SESSION['user'])) {
     $user_id = $_SESSION['user']['id'];
     $cart_id = isset($_POST['cart_id']) ? intval($_POST['cart_id']) : 0;
@@ -69,7 +69,29 @@ if (isset($_POST['remove_item']) && isset($_SESSION['user'])) {
     exit;
 }
 
-// Handle quantity update request (now using form submission)
+// Handle remove item request for non-logged-in users
+if (isset($_POST['remove_item']) && !isset($_SESSION['user'])) {
+    $cart_index = isset($_POST['cart_index']) ? intval($_POST['cart_index']) : -1;
+    
+    if ($cart_index >= 0 && isset($_SESSION['cart'][$cart_index])) {
+        // Remove the item from session cart
+        array_splice($_SESSION['cart'], $cart_index, 1);
+        $_SESSION['cart_msg'] = "Item removed from cart successfully";
+        
+        // Check if cart is now empty
+        if (empty($_SESSION['cart'])) {
+            $_SESSION['cart_empty'] = true;
+            $_SESSION['cart_msg'] = "Item removed from cart. Your cart is now empty.";
+        }
+    } else {
+        $_SESSION['quantity_error'] = 'Invalid cart item';
+    }
+    
+    header('Location: cart_view.php');
+    exit;
+}
+
+// Handle quantity update request for logged-in users
 if (isset($_POST['update_quantity']) && isset($_SESSION['user'])) {
     $user_id = $_SESSION['user']['id'];
     $cart_id = isset($_POST['cart_id']) ? intval($_POST['cart_id']) : 0;
@@ -276,6 +298,36 @@ if (isset($_POST['update_quantity']) && isset($_SESSION['user'])) {
     }
     
     // Redirect back to cart page
+    header('Location: cart_view.php');
+    exit;
+}
+
+// Handle quantity update request for non-logged-in users
+if (isset($_POST['update_quantity']) && !isset($_SESSION['user'])) {
+    $cart_index = isset($_POST['cart_index']) ? intval($_POST['cart_index']) : -1;
+    $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 0;
+    
+    if ($cart_index >= 0 && isset($_SESSION['cart'][$cart_index])) {
+        // Update quantity in session cart
+        if ($quantity <= 0) {
+            // Remove item if quantity is 0 or negative
+            array_splice($_SESSION['cart'], $cart_index, 1);
+            $_SESSION['cart_msg'] = "Item removed from cart successfully";
+            
+            // Check if cart is now empty
+            if (empty($_SESSION['cart'])) {
+                $_SESSION['cart_empty'] = true;
+                $_SESSION['cart_msg'] = "Item removed from cart. Your cart is now empty.";
+            }
+        } else {
+            // Update quantity
+            $_SESSION['cart'][$cart_index]['quantity'] = $quantity;
+            $_SESSION['quantity_success'] = "Quantity updated successfully";
+        }
+    } else {
+        $_SESSION['quantity_error'] = 'Invalid cart item';
+    }
+    
     header('Location: cart_view.php');
     exit;
 }
@@ -636,6 +688,11 @@ else {
     </div>
     <?php
 }
+
+// Handle checkout for non-logged-in users
+if (!isset($_SESSION['user']) && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['checkout'])) {
+    echo '<script>window.location.href = "login_view.php?next=cart_view.php";</script>';
+}
 ?>
 
 <script>
@@ -859,5 +916,4 @@ else {
         }
     });
 </script>
-<?php loadPartial('footer');
-?>
+<?php loadPartial('footer'); ?>
